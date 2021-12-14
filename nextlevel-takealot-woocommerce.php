@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       NEXTLEVEL Takealot for Woocommerce
  * Plugin URI:        https://www.kri8it.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Updates NEXTLEVEL stock and prices to Takealot
  * Version:           1.0.0
  * Author:            Hilton Moore
  * Author URI:        https://www.kri8it.com
