@@ -99,10 +99,15 @@ class Nextlevel_Takealot_Woocommerce {
 	 */
 	private function load_dependencies() {
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-nextlevel-takealot-woocommerce-api.php';	
+
+
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
+
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-nextlevel-takealot-woocommerce-loader.php';
 
 		/**

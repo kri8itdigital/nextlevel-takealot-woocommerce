@@ -29,34 +29,34 @@ class Nextlevel_Takealot_Woocommerce_API{
 
 		$_TOTAL = $this->GETOFFERCOUNT();
 		$_PAGES = $this->GETPAGECOUNT($_TOTAL, $_PAGE_SIZE);
-
+		
 		while($_CUR_PAGE <= $_PAGES):
-
+			
 			$_OFFERS = $this->GETOFFERS($_CUR_PAGE,$_PAGE_SIZE);
 
 			$_UPDATE = $this->BUILDUPDATE($_OFFERS);
-
+			
 			if(count($_UPDATE) > 0):
-
+				
 				foreach($_UPDATE as $_ID=>$_DATA):
 					$this->RUNUPDATE($_ID, $_DATA);
 				endforeach;
-
+				
 			endif;
-
+			
 			$_CUR_PAGE++;
-
+			
 		endwhile;
-
+		
 
 	}
 
 
 
 
-	public function DOCALL($_ENDPOINT, $_DATA = null, $_METHOD = 'GET'){
+	public function DOCALL($_ENDPOINT, $_DATA = null, $_METHOD = 'GET', $_DEBUG = false){
 	
-		$_URL = trailingslashit(trailingslashit($this->_URL).$_ENDPOINT);
+		$_URL = trailingslashit($this->_URL).$_ENDPOINT;
 
 		$_HEADERS = array();
 		$_HEADERS[] = 'Content-Type: application/json';
@@ -82,6 +82,10 @@ class Nextlevel_Takealot_Woocommerce_API{
 		curl_close($_CURL);
 
 		$_RES = json_decode($_RES);
+
+		if($_DEBUG):
+			echo '<pre>'; print_r($_RES); echo '</pre>';
+		endif;
 
 		return $_RES;
 
@@ -154,28 +158,32 @@ class Nextlevel_Takealot_Woocommerce_API{
 						$_STOCK = 0;
 					endif;
 
-					$_PRICE 	= $_CLASS->get_price();
-					$_RRP 		= $_CLASS->get_regular_price();
+					$_PRICE 	= (float)$_CLASS->get_price();
+					$_RRP 		= (float)$_CLASS->get_regular_price();
 
 					if(!$_RRP):
 						$_RRP = $_PRICE;
 					endif;
 
+					$_STOCK = (int)$_STOCK;
+
 					if((int)$_LEAD != $this->_LEAD_TIME):
 						$_LEAD = $this->_LEAD_TIME;
 					endif;
 
-					if($_STOCK > 0 && $price > 0):
+					if($_STOCK > 0 && $_PRICE > 0):
 						$_STATUS = 'Re-enable';
 					endif;
 
 					if($_PRICE > 0):
-						$_UPDATED_OFFERS[$offer] = array(
+						$_UPDATED_OFFERS[$_OFFER] = array(
 							'sku' => $_ITEM, 
 							'selling_price' => $_PRICE, 
 							'rrp' => $_RRP, 
 							'leadtime_days' => $_LEAD, 
-							'leadtime_stock' => array('merchant_warehouse_id' => $this->_WAREHOUSE, 'quantity' => $_STOCK),
+							'leadtime_stock' => array(
+								array('merchant_warehouse_id' => $this->_WAREHOUSE, 'quantity' => $_STOCK)
+							),
 							'status_action' => $_STATUS
 						);
 					endif;
@@ -203,14 +211,14 @@ class Nextlevel_Takealot_Woocommerce_API{
 
 		$_ENDPOINT = 'offers/offer/'.$_ID.'/';
 
-		$_DATA = json_encode($_DATA);
+		$_DATA = json_encode($_DATA, JSON_NUMERIC_CHECK);
 
 		$this->DOCALL($_ENDPOINT, $_DATA, "PATCH");
 
 	}
 
 
-
+	
 
 
 }
