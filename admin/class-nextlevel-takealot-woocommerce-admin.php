@@ -107,12 +107,11 @@ class Nextlevel_Takealot_Woocommerce_Admin {
 	/*
 	
 	*/
-	public function woocommerce_get_settings_pages(){
+	public function woocommerce_get_settings_pages($settings){
 
 		include plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-nextlevel-takealot-woocommerce-settings.php';
 
 		$settings[] = new Nextlevel_Takealot_Woocommerce_Settings();
-
 
 		return $settings;
 

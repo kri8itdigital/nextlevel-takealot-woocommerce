@@ -156,20 +156,20 @@ class Nextlevel_Takealot_Woocommerce {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
+		
 		$plugin_admin = new Nextlevel_Takealot_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->loader->add_filter( 'woocommerce_get_settings_pages', $plugin_admin, 'woocommerce_get_settings_pages' );
-
+		$this->loader->add_filter( 'woocommerce_get_settings_pages', $plugin_admin, 'woocommerce_get_settings_pages',999,1 );
+		
 		$this->loader->add_filter( 'http_request_timeout', $plugin_admin, 'http_request_timeout');
 		$this->loader->add_filter( 'cron_schedules', $plugin_admin, 'cron_schedules', 999,1);	
 		$this->loader->add_action( 'init', $plugin_admin, 'setup_cron_schedules', 999);	
 
 		$this->loader->add_action( 'nextlevel_takealot_woocommerce_cron_action', $plugin_admin, 'nextlevel_takealot_woocommerce_cron_action');	
-
+		
 	}
 
 	/**

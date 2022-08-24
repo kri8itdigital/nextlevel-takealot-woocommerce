@@ -1,4 +1,4 @@
-class-nextlevel-takealot-settings.php<?php
+<?php
 /**
  * WooCommerce Account Settings.
  *
